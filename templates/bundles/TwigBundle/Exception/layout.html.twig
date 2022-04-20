@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Une erreur est survenue : {% block title_error %}{% endblock %}
+{% endblock %}
+{% block body %}
+<section class="w-full min-h-screen">
+    <div class="container flex flex-col items-center justify-center px-5 py-5 m-auto min-h-screen w-full">
+        <!-- Heading -->
+        <h1 class="text-center text-6xl text-black dark:text-white font-bold mb-2">
+            Uh Oh.
+        </h1>
+        <h4 class="mb-3 text-center text-2xl text-black dark:text-sky-500 font-bold">
+            {% block error %}{% endblock %}
+        </h4>
+        <!-- Text -->
+        <p class="mb-3 text-center text-xl text-black dark:text-white">
+            Nous avons rencontré une erreur, mais nous allons nous en occuper
+        </p>
+        <!-- Link -->
+        <a class="flex items-center justify-center px-3 py-2 border-2 border-transparent font-bold rounded-full text-white bg-sky-600 hover:bg-sky-500" href="{{ path('app_home') }}">
+            Retour à l'accueil
+        </a>
+    </div>
+</section>
+{% endblock %}

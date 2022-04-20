@@ -1,19 +1,279 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+<html lang="fr" class="bg-white dark:bg-[#0B1120]">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="https://symfony.com/images/logos/sf-positive.svg" />
+    <title>
+      {% block title %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+      {% endblock %} - Symfony Boilerplate
+    </title>
+    {% block stylesheets %}
+      {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+
+    {% block javascripts %}
+      {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+  </head>
+  <body>
+    <nav>
+      <div class="desktop:container mx-auto px-5 lg:px-8 py-2">
+        <div class="relative flex items-center justify-between h-[4.25rem]">
+          <div class="absolute inset-y-0 left-0 flex items-center desktop:hidden">
+            <!-- Mobile menu button -->
+            <button type="button"
+              class="relative inline-flex border-2 border-gray-400 focus:border-transparent dark:border-transparent items-center justify-center p-2 rounded-md text-black dark:text-white bg-white dark:bg-sky-700"
+              aria-controls="mobile-menu"
+              aria-expanded="false"
+              onclick="toggleNavbar('mobile-menu', 'menu-close', 'menu-open')">
+              <span class="sr-only">Open main menu</span>
+              <!-- Icon when menu is closed. Heroicon name: outline/menu. Menu open: "hidden", Menu closed: "block" -->
+              <svg class="block h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+                id="menu-open">
+                <path stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+              <!-- Icon when menu is open. Heroicon name: outline/x. Menu open: "block", Menu closed: "hidden" -->
+              <svg class="hidden h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+                id="menu-close">
+                <path stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <div class="flex-1 flex items-center justify-center desktop:items-stretch desktop:justify-start h-full">
+            <div class="flex-shrink-0 flex items-center">
+              <a href="{{ path('app_home') }}">
+                <img class="block h-16 w-auto"
+                  src="https://symfony.com/images/logos/header-logo.svg"
+                  id="navbar-logo"
+                  alt="Logo" />
+              </a>
+            </div>
+            <div class="hidden desktop:block desktop:ml-auto h-full">
+              <div class="flex space-x-6 h-full tracking-wider">
+                <!-- Active: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+                <a href="{{ path('app_home') }}"
+                  class="px-3 py-2 text-lg font-extrabold flex items-center text-blue-700 dark:text-white hover:text-sky-500 dark:hover:text-sky-400"
+                  {{ menu_active('home') }}>
+                  <svg xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6 mr-1"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2">
+                    <path stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                  </svg>
+                  <span class="h-6">Accueil</span>
+                </a>
+                {% if app.user is defined and app.user is not null %}
+                  <a href="{{ path('app_logout') }}"
+                    class="flex items-center justify-center align-middle h-10 my-auto">
+                    <button class="letter-spacing-0.025 text-blue-900 hover:text-white dark:text-white font-bold px-6 py-2 border-2 border-sky-500 hover:bg-sky-600 hover:border-sky-600 rounded-xl">
+                      Déconnexion
+                    </button>
+                  </a>
+                {% else %}
+                  <a href="{{ path('app_login') }}"
+                    class="flex items-center justify-center align-middle h-10 my-auto">
+                    <button class="letter-spacing-0.025 text-blue-900 hover:text-white dark:text-white font-bold px-6 py-2 border-2 border-sky-500 hover:bg-sky-600 hover:border-sky-600 rounded-xl">
+                      Connexion
+                    </button>
+                  </a>
+                  <a href="{{ path('app_signup') }}"
+                    class="flex items-center justify-center align-middle h-10 my-auto">
+                    <button class="letter-spacing-0.025 text-white font-bold px-6 py-2 bg-sky-700 border-2 border-transparent hover:bg-sky-600 rounded-xl">
+                      Inscription
+                    </button>
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Mobile menu, show/hide based on menu state. -->
+      <div class="hidden desktop:hidden" id="mobile-menu">
+        <div class="container mx-auto px-2 pt-2 pb-3 space-y-1 tracking-wider">
+          <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+          <a href="{{ path('app_home') }}"
+            class="px-3 py-2 text-lg font-extrabold flex items-center justify-center text-blue-700 dark:text-white hover:text-sky-500 dark:hover:text-sky-400"
+            {{ menu_active('home') }}>
+            <svg xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 mr-1"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2">
+              <path stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            <span class="h-6">Accueil</span>
+          </a>
+          {% if app.user is defined and app.user is not null %}
+            <a href="{{ path('app_logout') }}"
+              class="flex items-center justify-center align-middle h-10 my-auto">
+              <button class="letter-spacing-0.025 text-blue-900 hover:text-white dark:text-white font-bold px-6 py-2 border-2 border-sky-500 hover:bg-sky-600 hover:border-sky-600 rounded-xl">
+                Déconnexion
+              </button>
+            </a>
+          {% else %}
+            <div class="space-y-3">
+              <a href="{{ path('app_login') }}"
+                class="flex items-center justify-center align-middle h-10 my-auto">
+                <button class="letter-spacing-0.025 text-blue-900 hover:text-white dark:text-white font-bold px-6 py-2 border-2 border-sky-500 hover:bg-sky-600 hover:border-sky-600 rounded-xl">
+                  Connexion
+                </button>
+              </a>
+              <a href="{{ path('app_signup') }}"
+                class="flex items-center justify-center align-middle h-10 my-auto">
+                <button class="letter-spacing-0.025 text-white font-bold px-6 py-2 bg-sky-700 border-2 border-transparent hover:bg-sky-600 rounded-xl">
+                  Inscription
+                </button>
+              </a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+    {% block body %}
+
+    {% endblock %}
+    <footer>
+      <div class="sm:container mx-auto px-6 pt-12 space-y-8 text-black dark:text-white md:px-12 lg:px-20 mb-8">
+        <div class="flex flex-wrap gap-4 items-end justify-between pb-4 border-b-2 border-b-gray-200 dark:border-b-gray-700">
+          <img src="https://symfony.com/images/logos/header-logo.svg"
+            alt="logo"
+            class="w-24" />
+          <div class="flex gap-6">
+            <a href="#"
+              target="blank"
+              aria-label="github"
+              class="hover:text-sky-500">
+              <svg xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="currentColor"
+                viewBox="0 0 16 16">
+                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+              </svg>
+            </a>
+            <a href="#"
+              target="blank"
+              aria-label="twitter"
+              class="hover:text-sky-500">
+              <svg xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="currentColor"
+                viewBox="0 0 16 16">
+                <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
+              </svg>
+            </a>
+            <a href="#"
+              target="blank"
+              aria-label="instagram"
+              class="hover:text-sky-500">
+              <svg class="h-6 w-6"
+                aria-hidden="true"
+                fill="currentColor"
+                viewBox="0 0 24 24">
+                <path fill-rule="evenodd"
+                  d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-6 mx-auto">
+          <div class="mx-auto">
+            <h6 class="text-lg font-medium text-cyan-900">
+              Company
+            </h6>
+            <ul class="list-inside mt-4 space-y-4">
+              <li>
+                <a href="#" class="hover:text-cyan-600 transition">About</a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-cyan-600 transition">Customers</a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-cyan-600 transition">
+                  Enterprise
+                </a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-cyan-600 transition">Partners</a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-cyan-600 transition">Jobs</a>
+              </li>
+            </ul>
+          </div>
+          <div class="mx-auto">
+            <h6 class="text-lg font-medium text-cyan-900">
+              Products
+            </h6>
+            <ul class="list-inside mt-4 space-y-4">
+              <li>
+                <a href="#" class="hover:text-cyan-600 transition">About</a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-cyan-600 transition">Customers</a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-cyan-600 transition">
+                  Enterprise
+                </a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-cyan-600 transition">Partners</a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-cyan-600 transition">Jobs</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="flex justify-between px-4 py-3 rounded-xl bg-gray-200 dark:bg-gray-800 text-black dark:text-white">
+          <span>&copy; Symfony Boilerplate <span id="year">2022</span></span>
+          <a href="#" class="font-medium transition hover:text-cyan-600">
+            License MIT
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      function toggleNavbar(collapseID, menuCloseID, menuOpenID) {
+      document.getElementById(collapseID).classList.toggle('hidden');
+      document.getElementById(collapseID).classList.toggle('block');
+      document.getElementById(menuCloseID).classList.toggle('hidden');
+      document.getElementById(menuCloseID).classList.toggle('block');
+      document.getElementById(menuOpenID).classList.toggle('hidden');
+      document.getElementById(menuOpenID).classList.toggle('block'); } function
+      openDropdown(collapseID) {
+      document.getElementById(collapseID).classList.toggle('hidden');
+      document.getElementById(collapseID).classList.toggle('block'); }
+    </script>
+  </body>
 </html>

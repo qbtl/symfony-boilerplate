@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Connexion' %}
+
+{% block body %}
+    <div class="sm:container px-5 mx-auto flex items-center justify-center pt-12">
+        <div class="w-full max-w-xl h-auto">
+            <div class="bg-sky-150 dark:bg-gray-900 h-full w-full max-h-max rounded-xl p-12">
+                <h1 class="text-4xl font-bold text-center mb-2 text-black dark:text-white capitalize">Se connecter</h1>
+                <button class="w-full pb-4 text-center text-black dark:text-white" type="button">
+                    ou
+                    <a href="{{ path('app_signup') }}" class="font-bold text-sky-500 hover:underline decoration-2 underline-offset-4">
+                        créez votre compte
+                    </a>
+                </button>
+                {% for message in app.flashes('warning') %}
+                    <div class="bg-yellow-600 rounded-xl mb-2">
+                        <div class="max-w-7xl mx-auto py-3 px-3 rounded-xl">
+                            <div class="flex items-center justify-between flex-wrap">
+                                <div class="w-0 flex-1 flex items-center">
+                                <span class="flex p-2 rounded-lg bg-yellow-700">
+                                  <!-- Heroicon name: outline/exclamation -->
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                  </svg>
+                                </span>
+                                    <p class="ml-3 font-medium text-white">
+                                    <span class="inline">
+                                        {{ message }}
+                                    </span>
+                                    </p>
+                                </div>
+                                <div class="order-2 flex-shrink-0 sm:order-3 sm:ml-3">
+                                    <button type="button" class="flex p-2 rounded-md hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-white -mr-1">
+                                        <span class="sr-only">Fermer</span>
+                                        <!-- Heroicon name: outline/x -->
+                                        <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <form method="post" class="w-full space-y-6 mb-8" autocomplete="off">
+                    <div class="flex flex-col space-y-6">
+                        <div class="relative">
+                            <label for="username">Nom d'utilisateur</label>
+                            <input type="text" name="username" id="username" required autocomplete="new-password"/>
+                        </div>
+                        <div class="relative">
+                            <label for="password">Mot de passe</label>
+                            <input type="password" name="password" id="password" autocomplete="current-password" required/>
+                        </div>
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <input id="remember-me" name="remember-me" type="checkbox">
+                            <label for="remember-me" class="ml-2 block">Se souvenir de moi</label>
+                        </div>
+                        <a href="" class="font-bold text-sky-500 hover:text-sky-600 hover:underline decoration-2 underline-offset-4"> Mot de passe oublié ? </a>
+                    </div>
+                    <button class="w-full px-4 py-2 rounded-xl bg-sky-600 transition hover:bg-sky-500 focus:bg-sky-600 active:bg-sky-800 relative" type="submit">
+                        <span class="font-semibold text-white text-lg">Se connecter</span>
+                    </button>
+                </form>
+
+                <div class="border-t-2 border-white">
+                    <span class="block w-max mx-auto -mt-3.5 px-4 text-center text-white bg-gray-900">Ou continuer avec</span>
+                </div>
+
+                <div class="mt-6 grid gap-6 sm:grid-cols-2 w-full">
+                    <a href="{{ path('oauth_connect', {service: 'google'}) }}" class="w-full">
+                        <button class="py-2 px-4 rounded-xl bg-red-700 hover:bg-red-600 focus:bg-red-600 active:bg-red-500 flex items-center justify-center w-full">
+                            <svg class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#google)">
+                                    <path d="M23.766 12.2764C23.766 11.4607 23.6999 10.6406 23.5588 9.83807H12.24V14.4591H18.7217C18.4528 15.9494 17.5885 17.2678 16.323 18.1056V21.1039H20.19C22.4608 19.0139 23.766 15.9274 23.766 12.2764Z" fill="currentColor" />
+                                    <path d="M12.24 24.0008C15.4764 24.0008 18.2058 22.9382 20.1944 21.1039L16.3274 18.1055C15.2516 18.8375 13.8626 19.252 12.2444 19.252C9.11376 19.252 6.45934 17.1399 5.50693 14.3003H1.51648V17.3912C3.55359 21.4434 7.70278 24.0008 12.24 24.0008Z" fill="currentColor" />
+                                    <path d="M5.50253 14.3003C4.99987 12.8099 4.99987 11.1961 5.50253 9.70575V6.61481H1.51649C-0.18551 10.0056 -0.18551 14.0004 1.51649 17.3912L5.50253 14.3003Z" fill="currentColor" />
+                                    <path d="M12.24 4.74966C13.9508 4.7232 15.6043 5.36697 16.8433 6.54867L20.2694 3.12262C18.1 1.0855 15.2207 -0.034466 12.24 0.000808666C7.70277 0.000808666 3.55359 2.55822 1.51648 6.61481L5.50252 9.70575C6.45052 6.86173 9.10935 4.74966 12.24 4.74966Z" fill="currentColor" />
+                                </g>
+                                <defs>
+                                    <clipPath id="google">
+                                        <rect class="h-6 w-6" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                            <span class="ml-2 font-medium text-white">Google</span>
+                        </button>
+                    </a>
+                    <a href="{{ path('oauth_connect', {service: 'github'}) }}" class="w-full">
+                        <button class="py-2 px-4 w-full rounded-xl bg-gray-800 transition hover:bg-gray-700 active:bg-gray-600 focus:bg-gray-700 flex items-center justify-center text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5" viewBox="0 0 16 16">
+                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                            </svg>
+                            <span class="ml-2 font-medium text-white">GitHub</span>
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
