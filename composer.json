@@ -1,4 +1,6 @@
 {
+    "name": "qbtl/symfony-boilerplate",
+    "description": "A Symfony 6 boilerplate using TailwindCSS",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
